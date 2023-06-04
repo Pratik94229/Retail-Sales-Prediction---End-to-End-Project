@@ -5,6 +5,7 @@ matplotlib
 scikit-learn
 catboost
 xgboost
+lightgbm
 Flask
-
-#-e .
+ipykernel
+-e .

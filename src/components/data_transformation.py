@@ -7,6 +7,8 @@ from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder,StandardScaler
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import PowerTransformer, MinMaxScaler, OneHotEncoder
 
 from src.exception import CustomException
 from src.logger import logging
@@ -23,55 +25,37 @@ class DataTransformation:
         self.data_transformation_config=DataTransformationConfig()
 
     def get_data_transformer_object(self):
-        '''
-        This function si responsible for data trnasformation
+           '''This function is responsible for data trnasformation'''
+           try:
+            # Define the columns for different transformations
+            numeric_cols = ['Customers', 'CompetitionDistance', 'CompetitionOpenSinceYear']
+            categorical_cols = ['PromoInterval', 'StoreType', 'Assortment']
+            
+
+
+            # Create a pipeline for numeric columns
+            numeric_pipeline = Pipeline([('imputer', SimpleImputer(strategy='median')),
+                                         ('power_transform', PowerTransformer(copy=False))])
+
+            # Create a pipeline for categorical columns
+            categorical_pipeline = Pipeline([('imputer', SimpleImputer(strategy='most_frequent')),
+                                             ('onehot', OneHotEncoder())])
+
+            # Combine the numeric and categorical pipelines using ColumnTransformer
+            com_pipeline = ColumnTransformer([('numeric', numeric_pipeline, numeric_cols),
+                                              ('categorical', categorical_pipeline, categorical_cols)])
+            
+            
         
-        '''
-        try:
-            numerical_columns = ["writing_score", "reading_score"]
-            categorical_columns = [
-                "gender",
-                "race_ethnicity",
-                "parental_level_of_education",
-                "lunch",
-                "test_preparation_course",
-            ]
 
-            num_pipeline= Pipeline(
-                steps=[
-                ("imputer",SimpleImputer(strategy="median")),
-                ("scaler",StandardScaler())
-
-                ]
-            )
-
-            cat_pipeline=Pipeline(
-
-                steps=[
-                ("imputer",SimpleImputer(strategy="most_frequent")),
-                ("one_hot_encoder",OneHotEncoder()),
-                ("scaler",StandardScaler(with_mean=False))
-                ]
-
-            )
-
-            logging.info(f"Categorical columns: {categorical_columns}")
-            logging.info(f"Numerical columns: {numerical_columns}")
-
-            preprocessor=ColumnTransformer(
-                [
-                ("num_pipeline",num_pipeline,numerical_columns),
-                ("cat_pipelines",cat_pipeline,categorical_columns)
-
-                ]
-
-
-            )
+            # Create the final pipeline
+            preprocessor = Pipeline([('combined_pipeline', com_pipeline),('scaler', MinMaxScaler())])
+            logging.info("Completed pipeline creation")
 
             return preprocessor
-        
-        except Exception as e:
-            raise CustomException(e,sys)
+
+           except Exception as e:
+              raise CustomException(e,sys)
         
     def initiate_data_transformation(self,train_path,test_path):
 
@@ -85,8 +69,10 @@ class DataTransformation:
 
             preprocessing_obj=self.get_data_transformer_object()
 
-            target_column_name="math_score"
-            numerical_columns = ["writing_score", "reading_score"]
+            target_column_name="Sales"
+            '''numerical_columns = ['Store', 'DayOfWeek', 'Date', 'Sales', 'Customers', 'Open', 'Promo','StateHoliday', 
+                                 'SchoolHoliday', 'StoreType', 'Assortment','CompetitionDistance', 'CompetitionOpenSinceMonth',
+                                 'CompetitionOpenSinceYear', 'Promo2', 'Promo2SinceWeek','Promo2SinceYear', 'PromoInterval']'''
 
             input_feature_train_df=train_df.drop(columns=[target_column_name],axis=1)
             target_feature_train_df=train_df[target_column_name]

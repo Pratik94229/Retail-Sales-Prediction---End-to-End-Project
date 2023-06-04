@@ -3,6 +3,7 @@ import sys
 from dataclasses import dataclass
 
 from catboost import CatBoostRegressor
+from lightgbm import LGBMRegressor
 from sklearn.ensemble import (
     AdaBoostRegressor,
     GradientBoostingRegressor,
@@ -38,13 +39,18 @@ class ModelTrainer:
                 test_array[:,-1]
             )
             models = {
-                "Random Forest": RandomForestRegressor(),
-                "Decision Tree": DecisionTreeRegressor(),
-                "Gradient Boosting": GradientBoostingRegressor(),
-                "Linear Regression": LinearRegression(),
-                "XGBRegressor": XGBRegressor(),
-                "CatBoosting Regressor": CatBoostRegressor(verbose=False),
-                "AdaBoost Regressor": AdaBoostRegressor(),
+                "LightGBM": LGBMRegressor(colsample_bytree=0.6005311588859247,learning_rate=0.17412176672580496,
+                                           max_bin=255,min_child_samples=3, n_estimators=437, num_leaves=339,
+                                           reg_alpha=0.09241149250114443, reg_lambda=0.035952475697498154,
+                                           verbose=-1)
+                #"Random Forest": RandomForestRegressor(),
+                #"Decision Tree": DecisionTreeRegressor(),
+                #"Gradient Boosting": GradientBoostingRegressor(),
+                #"Linear Regression": LinearRegression(),
+                #"XGBRegressor": XGBRegressor(),
+                #"CatBoosting Regressor": CatBoostRegressor(verbose=False),
+                #"AdaBoost Regressor": AdaBoostRegressor(),
+                
             }
             params={
                 "Decision Tree": {
@@ -67,6 +73,7 @@ class ModelTrainer:
                     'n_estimators': [8,16,32,64,128,256]
                 },
                 "Linear Regression":{},
+                "LightGBM":{},
                 "XGBRegressor":{
                     'learning_rate':[.1,.01,.05,.001],
                     'n_estimators': [8,16,32,64,128,256]
@@ -83,7 +90,7 @@ class ModelTrainer:
                 }
                 
             }
-
+            logging.info(f"Model training and hyperparameter tuning started")
             model_report:dict=evaluate_models(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,
                                              models=models,param=params)
             
