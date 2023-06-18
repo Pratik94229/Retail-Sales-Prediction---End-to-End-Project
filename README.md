@@ -72,7 +72,7 @@ To get started with this project, you can follow these steps:
 `python app.py`
 
 
-7.Streamlit deployment link `https://pratik94229-retail-sales-prediction---end-to-e-streamlit-a7g08y.streamlit.app/`
+7.Streamlit deployment link https://pratik94229-retail-sales-prediction---end-to-e-streamlit-a7g08y.streamlit.app/
 
 Feel free to modify the code and experiment with different models and techniques to improve the prediction accuracy.
 ## Acknowledgments
