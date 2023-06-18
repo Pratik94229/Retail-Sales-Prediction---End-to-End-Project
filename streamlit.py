@@ -1,8 +1,6 @@
-from flask import Flask, render_template, request
+import streamlit as st
 import pandas as pd
 import pickle
-
-app = Flask(__name__)
 
 # Load the preprocessor
 with open('artifacts/proprocessor.pkl', 'rb') as f:
@@ -12,29 +10,17 @@ with open('artifacts/proprocessor.pkl', 'rb') as f:
 with open('artifacts/model.pkl', 'rb') as f:
     model = pickle.load(f)
 
-@app.route('/')
-def home():
-    return render_template('index.html')
+# Create the Streamlit web app
+def main():
+    st.title("Retail Sales Prediction")
 
-@app.route('/predict', methods=['POST'])
-def predict():
-    # Get the uploaded file
-    file = request.files['file']
-
-    # Read the uploaded file
-    data = pd.read_csv(file)
-
-    # Preprocess the data using the preprocessor
-    preprocessed_data = preprocess_data(data)
-
-    # Make predictions using the model
-    predictions = make_predictions(preprocessed_data)
-
-    # Combine the predictions with the original data
-    result_df = pd.concat([data[['Store', 'Date']], pd.DataFrame(predictions, columns=['Expected Sales'])], axis=1)
-    result_data = result_df.values.tolist()
-
-    return render_template('result.html', result=result_data)
+    # Upload and preprocess data
+    uploaded_file = st.file_uploader("Upload CSV file", type="csv")
+    if uploaded_file is not None:
+        data = pd.read_csv(uploaded_file)
+        preprocessed_data = preprocess_data(data)
+        predictions = make_predictions(preprocessed_data)
+        display_predictions(predictions, data)
 
 def preprocess_data(data):
     # Select the required columns
@@ -56,5 +42,15 @@ def make_predictions(data):
 
     return predictions
 
+def display_predictions(predictions, data):
+    # Display the expected sales values along with store number and date
+    result_df = pd.DataFrame({
+        'Store': data['Store'],
+        'Date': pd.to_datetime(data['Date']),
+        'Expected Sales': predictions
+    })
+
+    st.write(result_df)
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    main()

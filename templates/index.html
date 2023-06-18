@@ -1,1 +1,17 @@
-<h1>Welcome to the home page</h1>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Retail Sales Prediction</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Retail Sales Prediction</h2>
+        <form action="/predict" method="post" enctype="multipart/form-data">
+            <label for="file">Upload CSV file:</label>
+            <input type="file" name="file" id="file" accept=".csv">
+            <input type="submit" value="Predict" class="button">
+        </form>
+    </div>
+</body>
+</html>
