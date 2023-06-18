@@ -64,14 +64,17 @@ To get started with this project, you can follow these steps:
 
 5. Tune the model by changing parameters in model_trainer.py:
 
-   ```bash
+   ```
    python src/model_trainer.py
    ```
 
+6.Run flask app by using 
+`python app.py`
+
+
+7.Streamlit deployment link `https://pratik94229-retail-sales-prediction---end-to-e-streamlit-a7g08y.streamlit.app/`
+
 Feel free to modify the code and experiment with different models and techniques to improve the prediction accuracy.
-
-
-
 ## Acknowledgments
 
 - The dataset used in this project is obtained from https://www.kaggle.com/competitions/rossmann-store-sales/data.
