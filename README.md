@@ -43,7 +43,7 @@ To get started with this project, you can follow these steps:
 1. Clone the repository:
 
    ```bash
-   git clone <repository_url>
+   git clone https://github.com/Pratik94229/Retail-Sales-Prediction---End-to-End-Project.git
    ```
 
 2. Install the required dependencies:
