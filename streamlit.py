@@ -12,15 +12,18 @@ with open('artifacts/model.pkl', 'rb') as f:
 
 # Create the Streamlit web app
 def main():
-    st.title("Retail Sales Prediction")
+    try:
+        st.title("Retail Sales Prediction")
 
     # Upload and preprocess data
-    uploaded_file = st.file_uploader("Upload CSV file", type="csv")
-    if uploaded_file is not None:
-        data = pd.read_csv(uploaded_file)
-        preprocessed_data = preprocess_data(data)
-        predictions = make_predictions(preprocessed_data)
-        display_predictions(predictions, data)
+        uploaded_file = st.file_uploader("Upload CSV file", type="csv")
+        if uploaded_file is not None:
+            data = pd.read_csv(uploaded_file)
+            preprocessed_data = preprocess_data(data)
+            predictions = make_predictions(preprocessed_data)
+            display_predictions(predictions, data)
+    except:
+        st.write("Enter correct csv file")        
 
 def preprocess_data(data):
     # Select the required columns
@@ -43,14 +46,15 @@ def make_predictions(data):
     return predictions
 
 def display_predictions(predictions, data):
-    # Display the expected sales values along with store number and date
-    result_df = pd.DataFrame({
-        'Store': data['Store'],
-        'Date': pd.to_datetime(data['Date']),
-        'Expected Sales': predictions
-    })
+   
+        # Display the expected sales values along with store number and date
+        result_df = pd.DataFrame({
+            'Store': data['Store'],
+            'Date': pd.to_datetime(data['Date']),
+            'Expected Sales': predictions})
 
-    st.write(result_df)
+        st.write(result_df)
+       
 
 if __name__ == '__main__':
     main()
