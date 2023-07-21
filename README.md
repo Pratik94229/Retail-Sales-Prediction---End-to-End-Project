@@ -29,12 +29,26 @@ The dataset used for this project contains the following columns:
 ## Project Structure
 
 The project structure is organized as follows:
+```
+├───artifacts
+├───logs
+├───notebook
+│   └───data
+├───src
+│   ├───components
+│   ├───pipeline
+├───static
+├───templates
+```
 
 
-- `notebooks/`: Jupyter notebooks for data exploration, preprocessing, and model development.Data directory containing the dataset file(s).
-- `src/`: Source code for the project, including preprocessing functions and model training.
+- `notebook/`: Jupyter notebooks for data exploration, preprocessing, and model development.
+- `notebook/data/`: contains the dataset file(s).
+- `src/`: Source code for the project, including preprocessing functions and model training .
+- `pipeline/`:Source code for different implemented pipelines.
 - `artifacts/`: Directory to store model and evaluation results and perform predictions.
-- `README.md`: This README file.
+- `static/` and `templates/` contains basic frontend framework for deployment using flask.
+
 
 ## Getting Started
 
@@ -42,39 +56,44 @@ To get started with this project, you can follow these steps:
 
 1. Clone the repository:
 
-   ```bash
+   ```
    git clone https://github.com/Pratik94229/Retail-Sales-Prediction---End-to-End-Project.git
    ```
+2. Create virtual environment
+   ```
+   conda create -p venv python==3.8
+   conda activate venv/
+   ```
 
-2. Install the required dependencies:
+3. Install the required dependencies:
 
-   ```bash
+   ```
    pip install -r requirements.txt
    ```
 
-3. Explore the collab notebooks in the `notebooks/` directory to understand the data and the steps involved in preprocessing and training the regression model.
+4. Explore the collab notebooks in the `notebooks/` directory to understand the data and the steps involved in preprocessing and training the regression model.
 
-4. Run the data ingestion script to preprocess,tranform the dataset along with training the model:
+5. Run the data ingestion script to preprocess,tranform the dataset along with training the model:
 
-```bash
+   ```
    python src/data_ingestion.py
    ```
 
 
 
-5. Tune the model by changing parameters in model_trainer.py:
+6. Tune the model by changing parameters in model_trainer.py:
 
    ```
    python src/model_trainer.py
    ```
 
-6.Run flask app by using 
+7. Run flask app by using 
 `python app.py`
 
 
-7.Streamlit deployment link https://pratik94229-retail-sales-prediction---end-to-e-streamlit-a7g08y.streamlit.app/
+8. Streamlit deployment link https://pratik94229-retail-sales-prediction---end-to-e-streamlit-a7g08y.streamlit.app/
 
-8. Load the desired file for predicting the result.
+9. Load the desired file for predicting the result.
 
 Feel free to modify the code and experiment with different models and techniques to improve the prediction accuracy.
 ## Acknowledgments
